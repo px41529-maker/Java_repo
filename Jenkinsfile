@@ -3,12 +3,12 @@ pipeline {
 
     stages {
 
-       stage('Checkout') {
-    steps {
-        git branch: 'main',
-            url: 'https://github.com/px41529-maker/Java_repo.git'
-    }
-}
+        stage('Checkout') {
+            steps {
+                git branch: 'main',
+                url: 'https://github.com/px41529-maker/Java_repo.git'
+            }
+        }
 
         stage('Build') {
             steps {
@@ -16,10 +16,15 @@ pipeline {
             }
         }
 
-     stage('Deploy') {
-    steps {
-        sh 'sudo cp target/ROOT.war /var/lib/tomcat10/webapps/'
-    }
-}
+        stage('Deploy') {
+            steps {
+                sh '''
+                sudo cp target/*.war /opt/tomcat/webapps/ROOT.war
+                sudo /opt/tomcat/bin/shutdown.sh || true
+                sleep 10
+                sudo /opt/tomcat/bin/startup.sh
+                '''
+            }
+        }
     }
 }
