@@ -1,33 +1,20 @@
 pipeline {
     agent any
 
-    tools {
-        jdk 'jdk17'
-        maven 'maven3'
-    }
-
     stages {
 
-        stage('Checkout') {
+        stage('Verify Environment') {
             steps {
-                git branch: 'main',
-                url: 'https://github.com/px41529-maker/Java_repo.git'
+                sh '''
+                java -version
+                mvn -version
+                pwd
+                ls -la
+                '''
             }
         }
 
         stage('Build') {
-            steps {
-                sh 'mvn clean compile'
-            }
-        }
-
-        stage('Test') {
-            steps {
-                sh 'mvn test'
-            }
-        }
-
-        stage('Package') {
             steps {
                 sh 'mvn clean package'
             }
@@ -35,18 +22,18 @@ pipeline {
 
         stage('Archive Artifact') {
             steps {
-                archiveArtifacts artifacts: 'target/*.jar'
+                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
             }
         }
     }
 
     post {
         success {
-            echo 'Build Successful!'
+            echo 'Build Successful'
         }
 
         failure {
-            echo 'Build Failed!'
+            echo 'Build Failed'
         }
     }
 }
