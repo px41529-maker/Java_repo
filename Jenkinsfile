@@ -19,7 +19,7 @@ pipeline {
        stage('Deploy') {
     steps {
         sh '''
-        sudo cp target/ROOT.war /opt/tomcat/webapps/ROOT.war
+        sudo cp target/ROOT.war /opt/tomcat10/webapps/ROOT.war
         '''
     }
 }
