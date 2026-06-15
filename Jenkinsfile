@@ -8,32 +8,36 @@ pipeline {
                 sh '''
                 java -version
                 mvn -version
-                pwd
-                ls -la
                 '''
             }
         }
 
-        stage('Build') {
+        stage('Build WAR') {
             steps {
                 sh 'mvn clean package'
             }
         }
 
-        stage('Archive Artifact') {
+        stage('Verify Artifact') {
             steps {
-                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+                sh 'ls -lh target/'
+            }
+        }
+
+        stage('Archive WAR') {
+            steps {
+                archiveArtifacts artifacts: 'target/*.war', fingerprint: true
             }
         }
     }
 
     post {
         success {
-            echo 'Build Successful'
+            echo 'WAR Build Successful'
         }
 
         failure {
-            echo 'Build Failed'
+            echo 'WAR Build Failed'
         }
     }
 }
