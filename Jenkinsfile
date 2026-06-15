@@ -16,11 +16,9 @@ pipeline {
             }
         }
 
-      stage('Deploy') {
+     stage('Deploy') {
     steps {
-        sh '''
-        sudo cp target/*.war /opt/tomcat/webapps/
-        '''
+        sh 'sudo cp target/ROOT.war /opt/tomcat10/webapps/'
     }
 }
     }
