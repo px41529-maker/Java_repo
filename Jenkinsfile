@@ -1,43 +1,54 @@
 pipeline {
-    agent any
+agent any
 
-    stages {
+```
+stages {
 
-        stage('Verify Environment') {
-            steps {
-                sh '''
-                java -version
-                mvn -version
-                '''
-            }
-        }
-
-        stage('Build WAR') {
-            steps {
-                sh 'mvn clean package'
-            }
-        }
-
-        stage('Verify Artifact') {
-            steps {
-                sh 'ls -lh target/'
-            }
-        }
-
-        stage('Archive WAR') {
-            steps {
-                archiveArtifacts artifacts: 'target/*.war', fingerprint: true
-            }
+    stage('Checkout') {
+        steps {
+            checkout scm
         }
     }
 
-    post {
-        success {
-            echo 'WAR Build Successful'
-        }
-
-        failure {
-            echo 'WAR Build Failed'
+    stage('Verify Environment') {
+        steps {
+            sh '''
+            java -version
+            mvn -version
+            '''
         }
     }
+
+    stage('Build WAR') {
+        steps {
+            sh 'mvn clean package'
+        }
+    }
+
+    stage('Verify WAR') {
+        steps {
+            sh 'ls -lh target/*.war'
+        }
+    }
+
+    stage('Deploy to Tomcat') {
+        steps {
+            sh '''
+            sudo cp target/*.war /var/lib/tomcat10/webapps/
+            '''
+        }
+    }
+}
+
+post {
+    success {
+        echo 'WAR deployed successfully to Tomcat'
+    }
+
+    failure {
+        echo 'Build or Deployment Failed'
+    }
+}
+```
+
 }
