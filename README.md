@@ -1,2 +1,2 @@
-# Java_repo
-Java project deployed using jenkins
+# Java_pipeline_repo
+java Application deploy using pipeline
