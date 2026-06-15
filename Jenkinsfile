@@ -5,7 +5,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git 'https://github.com/username/repo.git'
+                git 'https://github.com/px41529-maker/Java_repo.git'
             }
         }
 
