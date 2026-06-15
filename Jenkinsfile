@@ -18,7 +18,7 @@ pipeline {
 
      stage('Deploy') {
     steps {
-        sh 'sudo cp target/ROOT.war /opt/tomcat10/webapps/'
+        sh 'sudo cp target/ROOT.war /var/lib/tomcat10/webapps/'
     }
 }
     }
