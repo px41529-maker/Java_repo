@@ -20,10 +20,10 @@ pipeline {
                 deploy adapters: [
                     tomcat10(
                         credentialsId: 'tomcat-creds',
-                        url: 'http://SERVER-IP:8080'
+                        url: 'http://65.0.5.245:8080'
                     )
                 ],
-                war: 'target/*.war'
+                war: 'target/ROOT.war'
             }
         }
     }
