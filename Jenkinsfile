@@ -3,11 +3,12 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/px41529-maker/Java_repo.git'
-            }
-        }
+       stage('Checkout') {
+    steps {
+        git branch: 'main',
+            url: 'https://github.com/px41529-maker/Java_repo.git'
+    }
+}
 
         stage('Build') {
             steps {
